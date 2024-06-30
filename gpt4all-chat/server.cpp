@@ -9,7 +9,6 @@
 #include <QDebug>
 #include <QHostAddress>
 #include <QHttpServer>
-#include <QHttpServerRequest>
 #include <QHttpServerResponder>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -23,6 +22,8 @@
 #include <string>
 #include <type_traits>
 #include <utility>
+
+using namespace Qt::Literals::StringLiterals;
 
 //#define DEBUG
 
@@ -343,7 +344,7 @@ QHttpServerResponse Server::handleCompletionRequest(const QHttpServerRequest &re
         QString echoedPrompt = actualPrompt;
         if (!echoedPrompt.endsWith("\n"))
             echoedPrompt += "\n";
-        responses.append(qMakePair((echo ? QString("%1\n").arg(actualPrompt) : QString()) + response(), m_databaseResults));
+        responses.append(qMakePair((echo ? u"%1\n"_s.arg(actualPrompt) : QString()) + response(), m_databaseResults));
         if (!promptTokens)
             promptTokens += m_promptTokens;
         responseTokens += m_promptResponseTokens - m_promptTokens;
